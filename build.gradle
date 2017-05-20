@@ -1,5 +1,5 @@
 group 'gurusharan'
-version '1.0-SNAPSHOT'
+version 'alpha1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
@@ -10,7 +10,7 @@ repositories {
 }
 
 //create a single Jar with all dependencies
-task jar {
+task fatJar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
