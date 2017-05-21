@@ -30,12 +30,12 @@ public abstract class BaseTest {
 
     protected BasePage currentPage;
 
-    protected abstract Class<TestEntryPage> getExpectedFirstPage();
+    protected abstract <T extends TestEntryPage> Class<T> getExpectedFirstPage();
 
     @Before
     public void goToExpectedFirstPage() {
 
-        Class<TestEntryPage> expectedFirstPage = getExpectedFirstPage();
+        Class expectedFirstPage = getExpectedFirstPage();
 
         if (expectedFirstPage == null) {
             currentPage = BasePage.getCurrentPage(GlobalTestStorage.getGlobalDriver());
