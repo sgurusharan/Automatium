@@ -35,6 +35,21 @@ public class SeleniumUtils {
         return driver.findElement(locator);
     }
 
+    public static Object executeJavaScript(WebDriver driver, String javaScript) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        return jsExecutor.executeScript(javaScript);
+    }
+
+    public static String getTextFromElement(WebElement webElement) {
+        logger.info(UIACTIONTAG, "Attempting to get text from " + WebElementUtils.webElementAsString(webElement));
+        return webElement.getText();
+    }
+
+    public static String getPageSource(WebDriver driver) {
+        logger.info(UIACTIONTAG, "Attempting to get HTML page source");
+        return driver.getPageSource();
+    }
+
     public static Select locateSelect(WebDriver driver, By locator) {
         return new Select(locateElement(driver, locator));
     }

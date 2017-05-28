@@ -75,5 +75,11 @@ public abstract class BaseTest {
 
         logger.info(TESTSETUPTAG, "We are now at expected first page '" + expectedFirstPage.getSimpleName() + "'");
     }
+
+    public static void closeSession() {
+        if (GlobalTestStorage.getGlobalDriver() != null) {
+            SeleniumUtils.quit(GlobalTestStorage.getGlobalDriver());
+        }
+    }
 }
 

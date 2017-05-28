@@ -39,6 +39,7 @@ public abstract class BasePage {
         for (Class pageClass : (Set<Class>) pageClasses) {
             if (Modifier.isAbstract(pageClass.getModifiers())) {
                 logger.info(PAGETAG, "Skipping '" + pageClass.getSimpleName() + "' as it is abstract.");
+                continue;
             }
             logger.info(PAGETAG, "Checking if current page is '" + pageClass.getSimpleName() + "'");
             try {
@@ -59,6 +60,7 @@ public abstract class BasePage {
         }
 
         logger.debug(PAGETAG, "Current page is identified as '" + page.getClass().getSimpleName() + "'");
+        page.addLocators();
         return page;
     }
 
@@ -127,6 +129,22 @@ public abstract class BasePage {
 
     public Select locateSelect(String locatorKey) {
         return locateSelect(getLocator(locatorKey));
+    }
+
+    public String getPageSource() {
+        return SeleniumUtils.getPageSource(driver);
+    }
+
+    public Object executeJavaScript(String javaScript) {
+        return SeleniumUtils.executeJavaScript(driver, javaScript);
+    }
+
+    public String getTextInElement(String locatorKey) {
+        return getTextInElement(getLocator(locatorKey));
+    }
+
+    public String getTextInElement(By locator) {
+        return SeleniumUtils.getTextFromElement(locateElement(locator));
     }
 
     public void click(WebElement elementToClick) {
@@ -231,10 +249,11 @@ public abstract class BasePage {
         }
         try {
             boolean result = (boolean) method.invoke(getCurrentPage(), assertPageAction.getPageAction().getParameters());
+            TestUtils.assertTrue(result, String.format("Assertion '%s' in '%s' failed", assertPageAction.getPageAction().getMethodName(), getCurrentPage().getClass().getSimpleName()));
         } catch (IllegalAccessException e) {
             throw new PageActionNotFoundException(assertPageAction.getPageAction(), this.getClass());
         } catch (InvocationTargetException e) {
-            TestUtils.assertFail(String.format("Exception when invoking %s in page class %s", assertPageAction.getPageAction().getMethodName(), getCurrentPage().getClass()));
+            TestUtils.assertFail(String.format("Exception when invoking %s in page class %s", assertPageAction.getPageAction().getMethodName(), getCurrentPage().getClass().getSimpleName()));
         }
     }
 
@@ -260,7 +279,7 @@ public abstract class BasePage {
     private Method getPageMethod(PageAction pageAction) throws PageActionNotFoundException {
         List<Class> parameterClassesAsList = new LinkedList<>();
 
-        for (Object param : parameterClassesAsList) {
+        for (Object param : pageAction.getParameters()) {
             parameterClassesAsList.add(param.getClass());
         }
 
