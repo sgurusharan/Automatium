@@ -19,8 +19,8 @@ public class TestLogger {
     private TestLogger() {
         logLevel = LogLevel.fromString(TestConfiguration.getSingletonInstance().get("logLevel"));
         if (logLevel == null) {
-            // This is probably an IDE run - use the lowest log level (INFO)
-            logLevel = LogLevel.INFO;
+            // This is probably an IDE run - use the lowest log level (DEBUG)
+            logLevel = LogLevel.DEBUG;
         }
         logTags.push(DEFAULTLOGTAG);
     }
@@ -90,12 +90,12 @@ public class TestLogger {
         error(getLogTag(), msg);
     }
 
-    private boolean shouldLogInfo() {
-        return logLevel == LogLevel.INFO;
+    private boolean shouldLogDebug() {
+        return logLevel == LogLevel.DEBUG;
     }
 
-    private boolean shouldLogDebug() {
-        return (shouldLogInfo() || logLevel == LogLevel.DEBUG);
+    private boolean shouldLogInfo() {
+        return shouldLogDebug() || logLevel == LogLevel.INFO;
     }
 
     private boolean shouldLogWarn() {
@@ -108,8 +108,8 @@ public class TestLogger {
 
     private boolean shouldLog(LogLevel logLevel) {
         switch (logLevel) {
-            case INFO: return  shouldLogInfo();
             case DEBUG: return shouldLogDebug();
+            case INFO: return  shouldLogInfo();
             case WARN: return shouldLogWarn();
             case ERROR: return shouldLogError();
             default: return false;

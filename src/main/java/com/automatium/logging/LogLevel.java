@@ -8,8 +8,8 @@ import java.util.Map;
  * Created by Gurusharan on 19-11-2016.
  */
 public enum LogLevel {
-    INFO,
     DEBUG,
+    INFO,
     WARN,
     ERROR,
     NONE;
@@ -17,8 +17,8 @@ public enum LogLevel {
     private static Map<LogLevel, String> stringRepresentation = new HashMap<>();
 
     static {
-        stringRepresentation.put(INFO, "INFO");
         stringRepresentation.put(DEBUG, "DEBUG");
+        stringRepresentation.put(INFO, "INFO");
         stringRepresentation.put(WARN, "WARN");
         stringRepresentation.put(ERROR, "ERROR");
         stringRepresentation.put(NONE, "NONE");
