@@ -55,18 +55,18 @@ public abstract class BaseTest {
             logger.info(TESTSETUPTAG, "We are already at expected first page '" + expectedFirstPage.getSimpleName() + "'");
         }
         else {
-            logger.info(TESTSETUPTAG, "We are not at expected first page '" + expectedFirstPage.getSimpleName() + "'");
-            logger.info(TESTSETUPTAG, "Attempting to go to home page...");
+            logger.debug(TESTSETUPTAG, "We are not at expected first page '" + expectedFirstPage.getSimpleName() + "'");
+            logger.debug(TESTSETUPTAG, "Attempting to go to home page...");
             currentPage.goBackToHomePage();
             currentPage = BasePage.getCurrentPage(GlobalTestStorage.getGlobalDriver());
             if (currentPage instanceof BaseHomePage) {
-                logger.info(TESTSETUPTAG, "Verified that we are at home page.");
+                logger.debug(TESTSETUPTAG, "Verified that we are at home page.");
             }
             else {
                 throw new NotAtHomePageException(currentPage);
             }
             try {
-                logger.info(TESTSETUPTAG, "Attempting to navigate to expected first page '" + expectedFirstPage.getSimpleName() + "'");
+                logger.debug(TESTSETUPTAG, "Attempting to navigate to expected first page '" + expectedFirstPage.getSimpleName() + "'");
                 currentPage = currentPage.tryToNavigateToPageFromHomePage(expectedFirstPage);
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new InvalidFirstPageException(expectedFirstPage);

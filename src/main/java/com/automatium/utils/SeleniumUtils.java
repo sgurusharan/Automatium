@@ -18,7 +18,7 @@ public class SeleniumUtils {
     protected static TestLogger logger = TestLogger.getSingletonInstance();
 
     public static void gotoURL(WebDriver driver, String url) {
-        logger.info(UIACTIONTAG, "Navigating to URL: " + url);
+        logger.debug(UIACTIONTAG, "Navigating to URL: " + url);
         driver.get(url);
     }
 
@@ -31,22 +31,23 @@ public class SeleniumUtils {
     }
 
     public static WebElement locateElement(WebDriver driver, By locator) {
-        logger.info(UIACTIONTAG, "Attempting to locate " + locator);
+        logger.debug(UIACTIONTAG, "Attempting to locate " + locator);
         return driver.findElement(locator);
     }
 
     public static Object executeJavaScript(WebDriver driver, String javaScript) {
+        logger.debug(UIACTIONTAG, "Attempting to execute JavaScript:\n>>>>>\n" + javaScript + "\n<<<<<\n" );
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         return jsExecutor.executeScript(javaScript);
     }
 
     public static String getTextFromElement(WebElement webElement) {
-        logger.info(UIACTIONTAG, "Attempting to get text from " + WebElementUtils.webElementAsString(webElement));
+        logger.debug(UIACTIONTAG, "Attempting to get text from " + WebElementUtils.webElementAsString(webElement));
         return webElement.getText();
     }
 
     public static String getPageSource(WebDriver driver) {
-        logger.info(UIACTIONTAG, "Attempting to get HTML page source");
+        logger.debug(UIACTIONTAG, "Attempting to get HTML page source");
         return driver.getPageSource();
     }
 
@@ -55,42 +56,42 @@ public class SeleniumUtils {
     }
 
     public static void click(WebElement elementToClick) {
-        logger.info(UIACTIONTAG, "Attempting to click on " + WebElementUtils.webElementAsString(elementToClick));
+        logger.debug(UIACTIONTAG, "Attempting to click on " + WebElementUtils.webElementAsString(elementToClick));
         elementToClick.click();
     }
 
     public static void type(WebElement inputElementToType, String textToType) {
-        logger.info(UIACTIONTAG, "Attempting to type in " + WebElementUtils.webElementAsString(inputElementToType));
+        logger.debug(UIACTIONTAG, "Attempting to type in " + WebElementUtils.webElementAsString(inputElementToType));
         inputElementToType.sendKeys(textToType);
     }
 
     public static void selectDisplayedOption(Select selectList, String displayedOptionToSelect) {
-        logger.info(UIACTIONTAG, "Attempting to select " + WebElementUtils.mockOptionTagWithDisplayString(displayedOptionToSelect));
+        logger.debug(UIACTIONTAG, "Attempting to select " + WebElementUtils.mockOptionTagWithDisplayString(displayedOptionToSelect));
         selectList.selectByVisibleText(displayedOptionToSelect);
     }
 
     public static void selectNthOption(Select selectList, int n) {
-        logger.info(UIACTIONTAG, "Attempting to select option at index " + (n - 1));
+        logger.debug(UIACTIONTAG, "Attempting to select option at index " + (n - 1));
         selectList.selectByIndex(n - 1);
     }
 
     public static void selectOptionByValue(Select selectList, String valueToSelect) {
-        logger.info(UIACTIONTAG, "Attempting to select " + WebElementUtils.mockOptionTagWithValue(valueToSelect));
+        logger.debug(UIACTIONTAG, "Attempting to select " + WebElementUtils.mockOptionTagWithValue(valueToSelect));
         selectList.selectByValue(valueToSelect);
     }
 
     public static void deselectDisplayedOption(Select selectList, String displayedOptionToSelect) {
-        logger.info(UIACTIONTAG, "Attempting to deselect " + WebElementUtils.mockOptionTagWithDisplayString(displayedOptionToSelect));
+        logger.debug(UIACTIONTAG, "Attempting to deselect " + WebElementUtils.mockOptionTagWithDisplayString(displayedOptionToSelect));
         selectList.deselectByVisibleText(displayedOptionToSelect);
     }
 
     public static void deselectNthOption(Select selectList, int n) {
-        logger.info(UIACTIONTAG, "Attempting to deselect option at index " + (n - 1));
+        logger.debug(UIACTIONTAG, "Attempting to deselect option at index " + (n - 1));
         selectList.deselectByIndex(n - 1);
     }
 
     public static void deselectOptionByValue(Select selectList, String valueToSelect) {
-        logger.info(UIACTIONTAG, "Attempting to deselect " + WebElementUtils.mockOptionTagWithValue(valueToSelect));
+        logger.debug(UIACTIONTAG, "Attempting to deselect " + WebElementUtils.mockOptionTagWithValue(valueToSelect));
         selectList.deselectByValue(valueToSelect);
     }
 
@@ -107,33 +108,33 @@ public class SeleniumUtils {
     }
 
     public static boolean waitForElement(WebDriver driver, By locator, Long timeoutInSeconds) {
-        logger.info(UIACTIONTAG, "Waiting for " + locator + "...");
+        logger.debug(UIACTIONTAG, "Waiting for " + locator + "...");
         WebDriverWait waiter = new WebDriverWait(driver, timeoutInSeconds);
         try {
             waiter.until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
-            logger.info(UIACTIONTAG, "Timed out!");
+            logger.debug(UIACTIONTAG, "Timed out!");
             return false;
         }
-        logger.info(UIACTIONTAG, "Found!");
+        logger.debug(UIACTIONTAG, "Found!");
         return true;
     }
 
     public static boolean waitForElementToDisappear(WebDriver driver, By locator, Long timeoutInSeconds) {
-        logger.info(UIACTIONTAG, "Waiting for " + locator + " to disappear...");
+        logger.debug(UIACTIONTAG, "Waiting for " + locator + " to disappear...");
         WebDriverWait waiter = new WebDriverWait(driver, timeoutInSeconds);
         try {
             waiter.until(ExpectedConditions.invisibilityOfElementLocated(locator));
         } catch (TimeoutException e) {
-            logger.info(UIACTIONTAG, "Timed out!");
+            logger.debug(UIACTIONTAG, "Timed out!");
             return false;
         }
-        logger.info(UIACTIONTAG, "Disappeared!");
+        logger.debug(UIACTIONTAG, "Disappeared!");
         return true;
     }
 
     public static boolean waitForElementToEnable(WebElement element, Long timeoutInSeconds) {
-        logger.info(UIACTIONTAG, "Waiting for " + WebElementUtils.webElementAsString(element) + " to get enabled...");
+        logger.debug(UIACTIONTAG, "Waiting for " + WebElementUtils.webElementAsString(element) + " to get enabled...");
         while (timeoutInSeconds > 0) {
             if (element.isEnabled()) {
                 break;
@@ -142,39 +143,39 @@ public class SeleniumUtils {
             GlobalUtils.wait(GlobalUtils.ONE_SECOND_IN_MILLIS);
         }
         if (element.isEnabled()) {
-            logger.info(UIACTIONTAG, "Enabled!");
+            logger.debug(UIACTIONTAG, "Enabled!");
         }
         else {
-            logger.info(UIACTIONTAG, "Timed out!");
+            logger.debug(UIACTIONTAG, "Timed out!");
         }
         return element.isEnabled();
     }
 
     public static boolean waitForPageWithTitle(WebDriver driver, String title, Long timeoutInSeconds) {
-        logger.info(UIACTIONTAG, "Waiting for web page with title '" + title + "'...");
+        logger.debug(UIACTIONTAG, "Waiting for web page with title '" + title + "'...");
         WebDriverWait waiter = new WebDriverWait(driver, timeoutInSeconds);
         try {
             waiter.until(ExpectedConditions.titleIs(title));
         }
         catch (TimeoutException e) {
-            logger.info(UIACTIONTAG, "Timed out!");
+            logger.debug(UIACTIONTAG, "Timed out!");
             return false;
         }
-        logger.info(UIACTIONTAG, "Found!");
+        logger.debug(UIACTIONTAG, "Found!");
         return true;
     }
 
     public static boolean waitForAlert(WebDriver driver, Long timeoutInSeconds) {
-        logger.info(UIACTIONTAG, "Waiting for an alert...");
+        logger.debug(UIACTIONTAG, "Waiting for an alert...");
         WebDriverWait waiter = new WebDriverWait(driver, timeoutInSeconds);
         try {
             waiter.until(ExpectedConditions.alertIsPresent());
         }
         catch (TimeoutException e) {
-            logger.info(UIACTIONTAG, "Timed out!");
+            logger.debug(UIACTIONTAG, "Timed out!");
             return false;
         }
-        logger.info(UIACTIONTAG, "Found!");
+        logger.debug(UIACTIONTAG, "Found!");
         return true;
     }
 
@@ -187,19 +188,19 @@ public class SeleniumUtils {
     }
 
     public static void switchToWindow(WebDriver driver, String windowHandle) {
-        logger.info(UIACTIONTAG, "Switching to window: " + windowHandle);
+        logger.debug(UIACTIONTAG, "Switching to window: " + windowHandle);
         driver.switchTo().window(windowHandle);
     }
 
     public static boolean isShowingAlert(WebDriver driver) {
         String currentWindowHandle = getCurrentWindowHandle(driver);
-        logger.info(UIACTIONTAG, "Checking if an alert is displayed...");
+        logger.debug(UIACTIONTAG, "Checking if an alert is displayed...");
         try {
             Alert alertHandle = driver.switchTo().alert();
-            logger.info(UIACTIONTAG, "Found alert with text: " + getAlertText(alertHandle));
+            logger.debug(UIACTIONTAG, "Found alert with text: " + getAlertText(alertHandle));
 
         } catch (NoAlertPresentException e) {
-            logger.info(UIACTIONTAG, "No alert found!");
+            logger.debug(UIACTIONTAG, "No alert found!");
             return false;
         }
         switchToWindow(driver, currentWindowHandle);
@@ -225,7 +226,7 @@ public class SeleniumUtils {
         if (isShowingAlert(driver)) {
             String currentWindowHandle = getCurrentWindowHandle(driver);
             Alert alertHandle = driver.switchTo().alert();
-            logger.info(UIACTIONTAG, "Dismissing it.");
+            logger.debug(UIACTIONTAG, "Dismissing it.");
             alertHandle.dismiss();
             switchToWindow(driver, currentWindowHandle);
         }
@@ -238,7 +239,7 @@ public class SeleniumUtils {
         if (isShowingAlert(driver)) {
             String currentWindowHandle = getCurrentWindowHandle(driver);
             Alert alertHandle = driver.switchTo().alert();
-            logger.info(UIACTIONTAG, "Accepting it.");
+            logger.debug(UIACTIONTAG, "Accepting it.");
             alertHandle.accept();
             switchToWindow(driver, currentWindowHandle);
         }
@@ -264,7 +265,7 @@ public class SeleniumUtils {
     }
 
     public static void quit(WebDriver driver) {
-        logger.info(UIACTIONTAG, "Closing window(s): " + getTitle(driver) + " (and subwindows opened if any)");
+        logger.debug(UIACTIONTAG, "Closing window(s): " + getTitle(driver) + " (and subwindows opened if any)");
         driver.quit();
     }
 

@@ -38,10 +38,10 @@ public abstract class BasePage {
 
         for (Class pageClass : (Set<Class>) pageClasses) {
             if (Modifier.isAbstract(pageClass.getModifiers())) {
-                logger.info(PAGETAG, "Skipping '" + pageClass.getSimpleName() + "' as it is abstract.");
+                logger.debug(PAGETAG, "Skipping '" + pageClass.getSimpleName() + "' as it is abstract.");
                 continue;
             }
-            logger.info(PAGETAG, "Checking if current page is '" + pageClass.getSimpleName() + "'");
+            logger.debug(PAGETAG, "Checking if current page is '" + pageClass.getSimpleName() + "'");
             try {
                 BasePage tempPage = (BasePage) pageClass.newInstance();
                 tempPage.driver = driver;
@@ -52,14 +52,14 @@ public abstract class BasePage {
             } catch (IllegalAccessException | InstantiationException e) {
                 logger.warn(PAGETAG, String.format("The page class '%s' is not structured good. There is no public default constructor available.", pageClass.getName()));
             }
-            logger.info(PAGETAG, "Current page does not seem to be '" + pageClass.getSimpleName() + "'");
+            logger.debug(PAGETAG, "Current page does not seem to be '" + pageClass.getSimpleName() + "'");
         }
 
         if (page == null) {
             throw new UnknownPageException(driver);
         }
 
-        logger.debug(PAGETAG, "Current page is identified as '" + page.getClass().getSimpleName() + "'");
+        logger.info(PAGETAG, "Current page is identified as '" + page.getClass().getSimpleName() + "'");
         page.addLocators();
         return page;
     }
