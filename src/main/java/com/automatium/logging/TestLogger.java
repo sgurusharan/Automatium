@@ -99,7 +99,7 @@ public class TestLogger {
     }
 
     private boolean shouldLogWarn() {
-        return (shouldLogDebug() || logLevel == LogLevel.WARN);
+        return (shouldLogInfo() || logLevel == LogLevel.WARN);
     }
 
     private boolean shouldLogError() {
