@@ -147,8 +147,16 @@ public abstract class BasePage {
         return SeleniumUtils.getTextFromElement(locateElement(locator));
     }
 
+    public void click(String locatorKey) {
+        click(locateElement(locatorKey));
+    }
+
     public void click(WebElement elementToClick) {
         SeleniumUtils.click(elementToClick);
+    }
+
+    public void type(String locatorKey, String textToType) {
+        type(locateElement(locatorKey), textToType);
     }
 
     public void type(WebElement inputElementToType, String textToType) {
