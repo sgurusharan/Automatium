@@ -8,12 +8,18 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
  * Created by Gurusharan on 19-11-2016.
  */
 public class SeleniumUtils {
+
+    public static final long DEFAULT_IMPLICIT_WAIT_SECONDS = 0;
+    public static final long DEFAULT_PAGE_LOAD_WAIT_SECONDS = -1;
+    public static final long DEFAULT_SCRIPT_WAIT_SECONDS = 0;
+
     private static final String UIACTIONTAG = "UIACTIONTAG";
     protected static TestLogger logger = TestLogger.getSingletonInstance();
 
@@ -270,6 +276,14 @@ public class SeleniumUtils {
     }
 
     public static WebDriver getNewWebDriver() {
-        return TestConfiguration.getSingletonInstance().getTestTarget().getAsWebDriver();
+        WebDriver driver = TestConfiguration.getSingletonInstance().getTestTarget().getAsWebDriver();
+        setDefaultDriverSettingsAndConfigurations(driver);
+        return driver;
+    }
+
+    private static void setDefaultDriverSettingsAndConfigurations(WebDriver driver) {
+        driver.manage().timeouts().implicitlyWait(DEFAULT_IMPLICIT_WAIT_SECONDS, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(DEFAULT_PAGE_LOAD_WAIT_SECONDS, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(DEFAULT_SCRIPT_WAIT_SECONDS, TimeUnit.SECONDS);
     }
 }
