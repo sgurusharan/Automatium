@@ -53,14 +53,14 @@ public class SeleniumUtils {
         return jsExecutor.executeScript(javaScript, arguments);
     }
 
-    public static String getTextFromTextBoxOrTextArea(WebDriver driver, WebElement textBoxOrTextArea) {
+    public static String getTextFromInputOrTextarea(WebDriver driver, WebElement textBoxOrTextArea) {
         return (String) executeJavaScript(driver, "return arguments[0].value", textBoxOrTextArea);
     }
 
-    private static boolean isElementTextBoxOrTextArea(WebElement webElement) {
+    private static boolean isElementInputOrTextarea(WebElement webElement) {
         String tagName = webElement.getTagName();
         String type = webElement.getAttribute("type");
-        return (tagName.equalsIgnoreCase("textarea") || (tagName.equalsIgnoreCase("input") && (type == null || type.equals("") || type.equalsIgnoreCase("text"))));
+        return (tagName.equalsIgnoreCase("textarea") || (tagName.equalsIgnoreCase("input")));
     }
 
     public static String getTextFromElement(WebElement webElement) {
@@ -69,13 +69,13 @@ public class SeleniumUtils {
 
     public static String getTextFromElement(WebDriver driver, WebElement webElement) {
         logger.debug(UIACTIONTAG, "Attempting to get text from " + WebElementUtils.webElementAsString(webElement));
-        if (isElementTextBoxOrTextArea(webElement)) {
+        if (isElementInputOrTextarea(webElement)) {
             // For text boxes and textareas, we can't gettext() may not work
             // Also, we need the driver object in this case to execute JS
             if (driver == null) {
                 throw new NullPointerException("Looks like " + WebElementUtils.webElementAsString(webElement) + " is a text field or textarea. Please pass a non-null WebDriver object to get its updated value.");
             }
-            return getTextFromTextBoxOrTextArea(driver, webElement);
+            return getTextFromInputOrTextarea(driver, webElement);
         }
         else {
             return webElement.getText();
