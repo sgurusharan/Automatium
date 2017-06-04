@@ -27,4 +27,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.reflections/reflections
     compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
 
+    // https://github.com/bonigarcia/webdrivermanager
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '1.6.2'
 }

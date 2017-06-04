@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
  * Created by Gurusharan on 06-12-2016.
  */
 public abstract class TestTarget {
+
     public abstract WebDriver getAsWebDriver();
 
     public static final String CHROME_TEST_TARGET = "chrome";
