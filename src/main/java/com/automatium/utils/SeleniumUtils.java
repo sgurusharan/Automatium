@@ -47,9 +47,39 @@ public class SeleniumUtils {
         return jsExecutor.executeScript(javaScript);
     }
 
+    public static Object executeJavaScript(WebDriver driver, String javaScript, Object... arguments) {
+        logger.debug(UIACTIONTAG, "Attempting to execute JavaScript:\n>>>>>\n" + javaScript + "\n<<<<<\nwith " + arguments.length + " arguments" );
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        return jsExecutor.executeScript(javaScript, arguments);
+    }
+
+    public static String getTextFromTextBoxOrTextArea(WebDriver driver, WebElement textBoxOrTextArea) {
+        return (String) executeJavaScript(driver, "return arguments[0].value", textBoxOrTextArea);
+    }
+
+    private static boolean isElementTextBoxOrTextArea(WebElement webElement) {
+        String tagName = webElement.getTagName();
+        String type = webElement.getAttribute("type");
+        return (tagName.equalsIgnoreCase("textarea") || (tagName.equalsIgnoreCase("input") && (type == null || type.equals("") || type.equalsIgnoreCase("text"))));
+    }
+
     public static String getTextFromElement(WebElement webElement) {
+        return getTextFromElement(null, webElement);
+    }
+
+    public static String getTextFromElement(WebDriver driver, WebElement webElement) {
         logger.debug(UIACTIONTAG, "Attempting to get text from " + WebElementUtils.webElementAsString(webElement));
-        return webElement.getText();
+        if (isElementTextBoxOrTextArea(webElement)) {
+            // For text boxes and textareas, we can't gettext() may not work
+            // Also, we need the driver object in this case to execute JS
+            if (driver == null) {
+                throw new NullPointerException("Looks like " + WebElementUtils.webElementAsString(webElement) + " is a text field or textarea. Please pass a non-null WebDriver object to get its updated value.");
+            }
+            return getTextFromTextBoxOrTextArea(driver, webElement);
+        }
+        else {
+            return webElement.getText();
+        }
     }
 
     public static String getPageSource(WebDriver driver) {

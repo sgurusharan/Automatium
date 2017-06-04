@@ -139,12 +139,16 @@ public abstract class BasePage {
         return SeleniumUtils.executeJavaScript(driver, javaScript);
     }
 
+    public Object executeJavaScript(String javaScript, Object... arguments) {
+        return SeleniumUtils.executeJavaScript(driver, javaScript, arguments);
+    }
+
     public String getTextInElement(String locatorKey) {
         return getTextInElement(getLocator(locatorKey));
     }
 
     public String getTextInElement(By locator) {
-        return SeleniumUtils.getTextFromElement(locateElement(locator));
+        return SeleniumUtils.getTextFromElement(driver, locateElement(locator));
     }
 
     public void click(String locatorKey) {
