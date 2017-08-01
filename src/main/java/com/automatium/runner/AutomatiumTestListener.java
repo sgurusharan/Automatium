@@ -1,6 +1,6 @@
 package com.automatium.runner;
 
-import com.automatium.test.BaseTest;
+import com.automatium.test.AutomatiumTest;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
 
@@ -10,6 +10,6 @@ import org.junit.runner.notification.RunListener;
 public class AutomatiumTestListener extends RunListener {
     @Override
     public void testRunFinished(Result result) throws Exception {
-        BaseTest.closeSession();
+        AutomatiumTest.closeSession();
     }
 }

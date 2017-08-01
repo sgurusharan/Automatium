@@ -5,12 +5,12 @@ package com.automatium.page;
  */
 public abstract class BaseHomePage extends TestEntryPage {
     @Override
-    public void navigateToPageFromHomePage() {
+    public final void navigateToPageFromHomePage(BaseHomePage homePage) {
         logger.info(PAGETAG, "Already at Page '" + this.getClass().getSimpleName() + "'");
     }
 
     @Override
-    public void goBackToHomePage() {
+    public final void goBackToHomePage() {
         logger.info(PAGETAG, "Already at HomePage '" + this.getClass().getSimpleName() + "'");
     }
 }

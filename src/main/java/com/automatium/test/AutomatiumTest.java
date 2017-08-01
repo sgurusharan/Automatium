@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
  */
 @Ignore
 @RunWith(AutomatiumTestRunner.class)
-public abstract class BaseTest {
+public abstract class AutomatiumTest {
 
     protected static final String TESTSETUPTAG = "TESTSETUP";
 

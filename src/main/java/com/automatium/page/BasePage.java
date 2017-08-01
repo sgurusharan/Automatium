@@ -82,7 +82,7 @@ public abstract class BasePage {
     public <T extends TestEntryPage> T tryToNavigateToPageFromHomePage(Class<T> targetPageClass) throws IllegalAccessException, InstantiationException {
         TestEntryPage tempPage = targetPageClass.newInstance();
         ((BasePage) tempPage).driver = driver;
-        tempPage.navigateToPageFromHomePage();
+        tempPage.navigateToPageFromHomePage((BaseHomePage) this);
         return getCurrentPageAs(targetPageClass);
     }
 
@@ -159,6 +159,14 @@ public abstract class BasePage {
         SeleniumUtils.click(elementToClick);
     }
 
+    public void clearAndType(String locatorKey, String textToType) {
+        clearAndType(locateElement(locatorKey), textToType);
+    }
+
+    public void clearAndType(WebElement inputElementToType, String textToType) {
+        SeleniumUtils.clearAndType(inputElementToType, textToType);
+    }
+
     public void type(String locatorKey, String textToType) {
         type(locateElement(locatorKey), textToType);
     }
@@ -229,6 +237,10 @@ public abstract class BasePage {
 
     public boolean waitForPageWithTitle(String title, Long timeoutInSeconds) {
         return SeleniumUtils.waitForPageWithTitle(driver, title, timeoutInSeconds);
+    }
+
+    public <T extends BasePage> boolean waitForPage(Class<T> expectedPageClass, Long timeoutInSeconds) {
+        return TestUtils.waitForCondition(timeoutInSeconds, ()-> expectedPageClass.isInstance(getCurrentPage()));
     }
 
     public boolean waitForAlert(Long timeoutInSeconds) {
@@ -335,7 +347,7 @@ public abstract class BasePage {
     }
 
     private void handleTypeAction(TypeText typeText) {
-        type(locateElement(typeText.getLocator(this)), typeText.getText());
+        clearAndType(locateElement(typeText.getLocator(this)), typeText.getText());
     }
 
     public String getCurrentWindowHandle() {

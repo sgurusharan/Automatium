@@ -102,6 +102,12 @@ public class SeleniumUtils {
         inputElementToType.sendKeys(textToType);
     }
 
+    public static void clearAndType(WebElement inputElementToType, String textToType) {
+        logger.debug(UIACTIONTAG, "Attempting to clear text in " + WebElementUtils.webElementAsString(inputElementToType));
+        inputElementToType.clear();
+        type(inputElementToType, textToType);
+    }
+
     public static void selectDisplayedOption(Select selectList, String displayedOptionToSelect) {
         logger.debug(UIACTIONTAG, "Attempting to select " + WebElementUtils.mockOptionTagWithDisplayString(displayedOptionToSelect));
         selectList.selectByVisibleText(displayedOptionToSelect);

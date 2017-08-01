@@ -1,7 +1,7 @@
 package com.automatium.runner;
 
 import com.automatium.logging.TestLogger;
-import com.automatium.test.BaseTest;
+import com.automatium.test.AutomatiumTest;
 import com.automatium.utils.GlobalUtils;
 import org.junit.runner.JUnitCore;
 
@@ -28,7 +28,7 @@ public class Automatium {
     private static Set<Class> getTestClassesToRun() {
         logger.info(AUTOMATIUMTAG, "Identifying tests to run...");
 
-        Set testClasses = GlobalUtils.reflections.getSubTypesOf(BaseTest.class);
+        Set testClasses = GlobalUtils.reflections.getSubTypesOf(AutomatiumTest.class);
         logger.info(AUTOMATIUMTAG, String.format("Identified %d test classes (unfiltered list)", testClasses.size()));
         return testClasses;
     }
