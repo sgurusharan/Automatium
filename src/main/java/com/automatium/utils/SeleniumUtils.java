@@ -3,6 +3,7 @@ package com.automatium.utils;
 import com.automatium.config.TestConfiguration;
 import com.automatium.logging.TestLogger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -298,6 +299,20 @@ public class SeleniumUtils {
 
     public static void switchToTop(WebDriver driver) {
         driver.switchTo().defaultContent();
+    }
+
+    public static void typeTextInPrompt(WebDriver driver, String textToType) {
+        logger.debug(UIACTIONTAG, "Attempting to input text in prompt - " + textToType);
+        String currentWindowHandle = driver.getWindowHandle();
+        driver.switchTo().alert().sendKeys(textToType);
+        driver.switchTo().window(currentWindowHandle);
+    }
+
+    public static void performHTTPAuthentication(WebDriver driver, String username, String password) {
+        logger.debug(UIACTIONTAG, "Attempting to authenticate as user - " + username);
+        String currentWindowHandle = driver.getWindowHandle();
+        driver.switchTo().alert().authenticateUsing(new UserAndPassword(username, password));
+        driver.switchTo().window(currentWindowHandle);
     }
 
     public static void quit(WebDriver driver) {

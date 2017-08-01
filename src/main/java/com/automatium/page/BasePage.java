@@ -167,6 +167,14 @@ public abstract class BasePage {
         SeleniumUtils.type(inputElementToType, textToType);
     }
 
+    public void typeInPrompt(String textToType) {
+        SeleniumUtils.typeTextInPrompt(driver, textToType);
+    }
+
+    public void performHTTPAuthentication(String username, String password) {
+        SeleniumUtils.performHTTPAuthentication(driver, username, password);
+    }
+
     public void selectDisplayedOption(Select selectList, String displayedOptionToSelect) {
         SeleniumUtils.selectDisplayedOption(selectList, displayedOptionToSelect);
     }
