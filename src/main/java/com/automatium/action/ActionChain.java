@@ -10,6 +10,7 @@ import java.util.List;
  * Created by Gurusharan on 27-11-2016.
  */
 public class ActionChain {
+    // Test Comment
     private List<UIAction> actions = new LinkedList<>();
     private BasePage currentPage;
 
