@@ -21,7 +21,12 @@ public class TestData extends OverridableProperties {
     public static TestData getSingletonInstance() {
         if (singletonInstance == null) {
             try {
-                singletonInstance = new TestData(System.getProperty(TEST_DATA_FILE_ENV_VARIABLE, System.getenv(TEST_DATA_FILE_ENV_VARIABLE)));
+                String testDataFile = System.getProperty(TEST_DATA_FILE_ENV_VARIABLE, System.getenv(TEST_DATA_FILE_ENV_VARIABLE));
+                if (testDataFile == null) {
+                    TestLogger.getSingletonInstance().warn("CONFIG", String.format("No system property or environment variable '%s' found. Unable to load test data.", TEST_DATA_FILE_ENV_VARIABLE));
+                }
+
+                singletonInstance = new TestData(testDataFile);
             }
             catch (IOException e) {
                 e.printStackTrace();

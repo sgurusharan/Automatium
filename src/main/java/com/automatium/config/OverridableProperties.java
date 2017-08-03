@@ -12,7 +12,9 @@ public class OverridableProperties {
 
     public OverridableProperties(String configFileName) throws IOException{
         configuration = new Properties();
-        configuration.load(new FileInputStream(configFileName));
+        if (configFileName != null) {
+            configuration.load(new FileInputStream(configFileName));
+        }
     }
 
     public String get(String config, String defaultValue) {

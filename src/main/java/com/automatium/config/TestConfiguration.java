@@ -16,10 +16,11 @@ import java.util.List;
 public class TestConfiguration extends OverridableProperties {
 
     private List<TestFilter> testFilters = new LinkedList<>();
+    private boolean usingDefaultConfig = false;
 
     private static TestConfiguration singletonInstance;
 
-    private static final String CONFIG_FILE_ENV_VARIABLE = "configFile";
+    public static final String CONFIG_FILE_ENV_VARIABLE = "configFile";
 
     private static final String PRODUCT_FILTER_PROPERTY = "product";
     private static final String MODULE_FILTER_PROPERTY = "module";
@@ -198,11 +199,14 @@ public class TestConfiguration extends OverridableProperties {
         if (singletonInstance == null) {
             try {
                 String configFileName = System.getProperty(CONFIG_FILE_ENV_VARIABLE, System.getenv(CONFIG_FILE_ENV_VARIABLE));
+                boolean usingDefaultConfiguration = false;
                 if (configFileName == null) {
                     // This is probably an IDE run - let's use the default configuration
                     configFileName = new File(TestConfiguration.class.getClassLoader().getResource("defaults/testConfig.properties").toURI()).getAbsolutePath();
+                    usingDefaultConfiguration = true;
                 }
                 singletonInstance = new TestConfiguration(configFileName);
+                singletonInstance.usingDefaultConfig = usingDefaultConfiguration;
             }
             catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
@@ -210,5 +214,9 @@ public class TestConfiguration extends OverridableProperties {
             }
         }
         return singletonInstance;
+    }
+
+    public boolean isUsingDefaultConfig() {
+        return usingDefaultConfig;
     }
 }

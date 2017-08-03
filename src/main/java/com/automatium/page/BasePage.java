@@ -72,7 +72,7 @@ public abstract class BasePage {
         BasePage currentPage = getCurrentPage();
 
         try {
-            return (T) currentPage;
+            return expectedPageClass.cast(currentPage);
         }
         catch (ClassCastException e) {
             throw new NotAtExpectedPageException(currentPage, expectedPageClass);

@@ -32,6 +32,9 @@ public class TestLogger {
     public static TestLogger getSingletonInstance() {
         if (singletonInstance == null) {
             singletonInstance = new TestLogger();
+            if (TestConfiguration.getSingletonInstance().isUsingDefaultConfig()) {
+                singletonInstance.warn("CONFIG", String.format("No system property or environment variable '%s' found. Using default configurations.", TestConfiguration.CONFIG_FILE_ENV_VARIABLE));
+            }
         }
         return singletonInstance;
     }
