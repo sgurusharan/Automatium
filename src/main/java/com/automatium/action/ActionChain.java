@@ -1,5 +1,7 @@
 package com.automatium.action;
 
+import com.automatium.file.FileHandler;
+import com.automatium.logging.TestLogger;
 import com.automatium.page.BasePage;
 import org.openqa.selenium.By;
 
@@ -24,6 +26,38 @@ public class ActionChain {
 
     public ActionChain click(By locator) {
         addAction(new Click(locator));
+        return this;
+    }
+
+    public ActionChain fromFile(String filePath) {
+
+        TestLogger.getSingletonInstance().debug("TESTSETUP", "Loading PageActions from file " + filePath);
+
+        FileHandler fileHandler = FileHandler.getFileHandlerForFile(filePath);
+
+        int i = 0; // For logging
+
+        while (true) {
+            FileHandler.ActionEntry actionEntry = fileHandler.getNextAction();
+
+            if (actionEntry == null) {
+                break;
+            }
+
+            if (actionEntry.getAction().endsWith("?")) {
+                // Generally speaking page actions cannot have '?' (as they are supposed to be valid Java methods.
+                // So, it doesn't matter if I do a replaceAll here instead of replacing only the last occurrence.
+                assertPageAction(actionEntry.getAction().replaceAll("\\?", ""), actionEntry.getArguments().toArray(new String[0]));
+            }
+            else {
+                pageAction(actionEntry.getAction(), actionEntry.getArguments().toArray(new String[0]));
+            }
+
+            i++;
+        }
+
+        TestLogger.getSingletonInstance().debug("TESTSETUP", "Loaded " + i + " PageActions ");
+
         return this;
     }
 

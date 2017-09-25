@@ -10,6 +10,7 @@ public class PageAction implements UIAction {
     private Object[] parameters;
 
     public PageAction(String action, Object... parameters) {
+        action = action.trim();
         String[] actionWords = action.split(" ");
         this.methodName = actionWords[0];
         for (int i = 1; i < actionWords.length; i++) {
