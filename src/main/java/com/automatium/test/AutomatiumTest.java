@@ -17,6 +17,14 @@ import org.junit.runner.RunWith;
 
 /**
  * Created by Gurusharan on 19-11-2016.
+ *
+ * Abstract test class that all JUnit tests that use Automatium
+ * should extend directly or indirectly.
+ *
+ * This class allows the tester to configure the expected TestEntryPage,
+ * and tries to guarantee that the Application Under Test (AUT) is at
+ * the configured TestEntryPage before any test method (or custom setup
+ * method) is invoked.
  */
 @Ignore
 @RunWith(AutomatiumTestRunner.class)
@@ -30,6 +38,12 @@ public abstract class AutomatiumTest {
 
     protected BasePage currentPage;
 
+    /**
+     * This method should return the expected entry point for all the test methods.
+     *
+     * @param <T>
+     * @return A class that extends from TestEntryPage
+     */
     protected abstract <T extends TestEntryPage> Class<T> getExpectedFirstPage();
 
     @Before
@@ -65,12 +79,9 @@ public abstract class AutomatiumTest {
             else {
                 throw new NotAtHomePageException(currentPage);
             }
-            try {
-                logger.debug(TESTSETUPTAG, "Attempting to navigate to expected first page '" + expectedFirstPage.getSimpleName() + "'");
-                currentPage = currentPage.tryToNavigateToPageFromHomePage(expectedFirstPage);
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new InvalidFirstPageException(expectedFirstPage);
-            }
+
+            logger.debug(TESTSETUPTAG, "Attempting to navigate to expected first page '" + expectedFirstPage.getSimpleName() + "'");
+            currentPage = currentPage.tryToNavigateToPageFromHomePage(expectedFirstPage);
         }
 
         logger.info(TESTSETUPTAG, "We are now at expected first page '" + expectedFirstPage.getSimpleName() + "'");

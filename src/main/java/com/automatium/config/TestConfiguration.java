@@ -12,6 +12,15 @@ import java.util.List;
 
 /**
  * Created by Gurusharan on 20-11-2016.
+ *
+ * A set of test configuration properties that are obtained from
+ * the test configuration file. The configuration can also be overridden
+ * by specifying an environment variable or system property of the same
+ * name. A system priority takes higher priority.
+ *
+ * The path of the configuration file can be given as either an
+ * environment variable or a system property named 'configFile'
+ *
  */
 public class TestConfiguration extends OverridableProperties {
 

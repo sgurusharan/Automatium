@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 
 /**
  * Created by Gurusharan on 19-11-2016.
+ *
+ * Contains methods to interact with all Selenium elements (WebDriver, WebElement, etc.).
+ * It is recommended to not use interactions outside of this class.
+ *
  */
 public class SeleniumUtils {
 

@@ -6,6 +6,12 @@ package com.automatium.action;
 public class NewPage implements UIAction {
     private String url;
 
+    /**
+     * Creates a UIAction that navigates to the given
+     * URL when invoked.
+     *
+     * @param url
+     */
     public NewPage(String url) {
         this.url = url;
     }
